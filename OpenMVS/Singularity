@@ -11,7 +11,8 @@ Author "Ravi Tripathi - ravi89@uab.edu"
 ##Just grabbing default packages from ubuntu repository
 %post
 	apt-get -ym update
-	apt-get -ym install \
+	apt-get install -y -qq
+        apt-get -ym install \
     git \
     wget \
     cmake \
@@ -22,17 +23,7 @@ Author "Ravi Tripathi - ravi89@uab.edu"
     libtiff-dev \
     libglu1-mesa-dev \
     libxmu-dev \
-    libxi-dev \
-    libboost-iostreams-dev \
-    libboost-serialization-dev \
-    libboost-program-options-dev \
-    libboost-filesystem-dev \
-    libboost-graph-dev \
-    libboost-regex-dev \
-    libboost-system-dev \
-    libboost-test-dev
-
-    main_path=`pwd`
+    libxi-dev
 
     #Eigen (Required)
     hg clone https://bitbucket.org/eigen/eigen#3.2
@@ -42,6 +33,11 @@ Author "Ravi Tripathi - ravi89@uab.edu"
     make install
     cd ..
 
+        apt-get -ym install \
+    libboost-iostreams-dev \
+    libboost-serialization-dev \
+    libboost-program-options-dev \
+    libboost-system-dev \
 
         apt-get -ym install \
     libopencv-dev \
