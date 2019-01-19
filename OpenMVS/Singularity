@@ -65,11 +65,12 @@ Author "Ravi Tripathi - ravi89@uab.edu"
 
      mkdir openMVS_build
         cd openMVS_build
-        cmake . ../openMVS -DCMAKE_BUILD_TYPE=Release -DVCG_ROOT="../vcglib"
-        make -j2
+        cmake . ../openMVS -DCMAKE_BUILD_TYPE=Release -DVCG_ROOT="/vcglib"
+        make
         make install
 %environment
 	export IMAGE_NAME="OPENMVS"
+        
 #	export LANGUAGE = ""
 #    export LC_ALL = (unset)
 #	export LANG = "en_US.UTF-8"
