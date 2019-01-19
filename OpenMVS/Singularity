@@ -1,0 +1,76 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+%labels
+Author "Ravi Tripathi - ravi89@uab.edu"
+
+#########
+#%setup
+#########
+
+##Just grabbing default packages from ubuntu repository
+%post
+	apt-get -ym update
+	apt-get install -y -qq
+        apt-get -ym install \
+    git \
+    wget \
+    cmake \
+    build-essential \
+    mercurial \
+    libpng-dev \
+    libjpeg-dev \
+    libtiff-dev \
+    libglu1-mesa-dev \
+    libxmu-dev \
+    libxi-dev
+
+    #Eigen (Required)
+    hg clone https://bitbucket.org/eigen/eigen#3.2
+    mkdir eigen_build && cd eigen_build
+    cmake . ../eigen
+    make
+    make install
+    cd ..
+
+        apt-get -ym install \
+    libboost-iostreams-dev \
+    libboost-serialization-dev \
+    libboost-program-options-dev \
+    libboost-system-dev \
+
+        apt-get -ym install \
+    libopencv-dev \
+    libglew-dev \
+    freeglut3-dev \
+    libglfw3-dev \
+    libcgal-dev
+    apt-get -ym install libcgal-qt5-dev
+    apt-get -ym install libatlas-base-dev libsuitesparse-dev
+    
+    git clone https://ceres-solver.googlesource.com/ceres-solver
+    git clone https://github.com/cdcseacave/openMVS.git openMVS
+    #VCGLib (Required)
+    git clone https://github.com/cdcseacave/VCG.git vcglib
+
+    cd ceres-solver
+	git checkout $(git describe --tags) # Checkout the latest release
+	mkdir build
+	cd build
+	cmake .. -DMINIGLOG=ON -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF
+	make
+	make install
+	
+	cd ../..
+
+     mkdir openMVS_build
+        cd openMVS_build
+        cmake . ../openMVS -DCMAKE_BUILD_TYPE=Release -DVCG_ROOT="/vcglib"
+        make
+        make install
+%environment
+	export IMAGE_NAME="OPENMVS"
+        
+#	export LANGUAGE = ""
+#    export LC_ALL = (unset)
+#	export LANG = "en_US.UTF-8"
