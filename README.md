@@ -9,5 +9,5 @@ Dependencies :-
 Build :-  
 To build a singularity container, you need to run the following command:
 
-singularity build {SIMG_NAME}.simg SINGULARITY_RECIPE_FILE
+sudo singularity build {SIMG_NAME}.simg SINGULARITY_RECIPE_FILE
 
