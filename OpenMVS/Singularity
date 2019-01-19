@@ -50,6 +50,8 @@ Author "Ravi Tripathi - ravi89@uab.edu"
     
     git clone https://ceres-solver.googlesource.com/ceres-solver
     git clone https://github.com/cdcseacave/openMVS.git openMVS
+    #VCGLib (Required)
+    git clone https://github.com/cdcseacave/VCG.git vcglib
 
     cd ceres-solver
 	git checkout $(git describe --tags) # Checkout the latest release
