@@ -3,7 +3,7 @@ From: nickjer/singularity-r:3.6.0
 
 %labels
   Maintainer Jeremy Nicklas
-  RStudio_Version 1.2.5033
+  RStudio_Version 1.1.463
 
 %help
   This will run RStudio Server
@@ -27,7 +27,7 @@ From: nickjer/singularity-r:3.6.0
 
 %post
   # Software versions
-  export RSTUDIO_VERSION=1.2.5033
+  export RSTUDIO_VERSION=1.1.463
 
   # Install RStudio Server
   apt-get update
@@ -40,7 +40,9 @@ From: nickjer/singularity-r:3.6.0
     xfonts-base
   apt-get install -y \
     libopenblas-base \
-    build-essential
+    build-essential \
+    openssl \
+    libssl-dev
     #r-base
   apt-get install -y --no-install-recommends \
     ca-certificates \
@@ -49,7 +51,7 @@ From: nickjer/singularity-r:3.6.0
   wget \
     --no-verbose \
     -O rstudio-server.deb \
-    "https://download2.rstudio.org/server/debian9/x86_64/rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
+    "https://download2.rstudio.org/rstudio-server-${RSTUDIO_VERSION}-amd64.deb"
   gdebi -n rstudio-server.deb
   rm -f rstudio-server.deb
 
