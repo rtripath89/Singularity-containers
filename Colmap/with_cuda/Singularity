@@ -1,0 +1,76 @@
+Bootstrap: docker
+From: ubuntu:16.04
+
+%labels
+Author "Randall Cab White - rcwhite@stanford.edu"
+
+#########
+#%setup
+#########
+
+##Just grabbing default packages from ubuntu repository
+%post
+	apt-get -ym update
+	apt-get -ym install \
+    git \
+    wget \
+    cmake \
+    build-essential \
+    libboost-program-options-dev \
+    libboost-filesystem-dev \
+    libboost-graph-dev \
+    libboost-regex-dev \
+    libboost-system-dev \
+    libboost-test-dev \
+    libeigen3-dev \
+    libsuitesparse-dev \
+    libfreeimage-dev \
+    libgoogle-glog-dev \
+    libgflags-dev \
+    libglew-dev \
+    qtbase5-dev \
+    libqt5opengl5-dev \
+    libcgal-dev
+    apt-get -ym install libcgal-qt5-dev
+    apt-get -ym install libatlas-base-dev libsuitesparse-dev
+    
+    git clone https://ceres-solver.googlesource.com/ceres-solver
+    git clone https://github.com/colmap/colmap.git
+    
+    cd ceres-solver
+	git checkout $(git describe --tags) # Checkout the latest release
+	mkdir build
+	cd build
+	cmake .. -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF
+	make
+	make install
+	
+	cd ../..
+
+        wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_10.0.130-1_amd64.deb
+        dpkg -i cuda-repo-ubuntu1604_10.0.130-1_amd64.deb
+        apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
+#        apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
+        apt-get -ym update
+        apt-get -ym install cuda
+
+        cd ../..
+	
+	cd colmap
+	git checkout dev
+	mkdir build
+	cd build
+#	cmake -DCMAKE_EXE_LINKER_FLAGS="-static -ldl -lc" \
+#    -DCMAKE_FIND_LIBRARY_SUFFIXES=".a" ..
+	cmake ../
+	make
+	make install
+
+%environment
+	export IMAGE_NAME="CERES SOLVER AND COLMAP"
+#	export LANGUAGE = ""
+#    export LC_ALL = (unset)
+#	export LANG = "en_US.UTF-8"
+
+
+
